@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.songhaozhi.mayday.mapper.generator.MusicMapper">
+    <resultMap id="BaseResultMap" type="com.songhaozhi.mayday.model.domain.Music">
+        <id column="m_id" jdbcType="INTEGER" property="mId"/>
+        <result column="m_title" jdbcType="VARCHAR" property="mTitle"/>
+        <result column="m_author" jdbcType="VARCHAR" property="mAuthor"/>
+        <result column="m_url" jdbcType="VARCHAR" property="mUrl"/>
+        <result column="m_pic" jdbcType="VARCHAR" property="mPic"/>
+        <result column="m_lrc" jdbcType="VARCHAR" property="mLrc"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <!-- 查询所有 -->
+    <select id="findMusics" resultMap="BaseResultMap">
+        SELECT * FROM mayday_music ORDER BY update_time desc
+    </select>
+
+    <!-- 插入数据 -->
+    <insert id="save" parameterType="com.songhaozhi.mayday.model.domain.Music">
+        INSERT INTO mayday_music(m_title,m_author,m_url,m_pic,m_lrc,create_time,update_time)
+        VALUES(
+                #{mTitle,jdbcType=VARCHAR},
+                #{mAuthor,jdbcType=VARCHAR},
+                #{mUrl,jdbcType=VARCHAR},
+                #{mPic,jdbcType=VARCHAR},
+                #{mLrc,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP}
+            );
+    </insert>
+
+    <!-- 根据id查询一个 -->
+    <select id="findOneById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT * FROM mayday_music where m_id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据id删除 -->
+    <delete id="removeById" parameterType="java.lang.Integer">
+        DELETE FROM mayday_music where m_id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 根据id跟新 -->
+    <update id="updateById" parameterType="com.songhaozhi.mayday.model.domain.Music">
+        UPDATE mayday_music
+        <set>
+            <if test="mTitle != null and mTitle != ''">
+                m_title = #{mTitle,jdbcType=VARCHAR},
+            </if>
+
+            <if test="mAuthor != null and mAuthor != ''">
+                m_author = #{mAuthor,jdbcType=VARCHAR},
+            </if>
+
+            <if test="mUrl != null and mUrl != ''">
+                m_url = #{mUrl,jdbcType=VARCHAR},
+            </if>
+
+            <if test="mPic != null and mPic != ''">
+                m_pic = #{mPic,jdbcType=VARCHAR},
+            </if>
+
+            <if test="mLrc != null and mLrc != ''">
+                m_lrc = #{mLrc,jdbcType=VARCHAR},
+            </if>
+
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+        </set>
+        where m_id = #{mId,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:thSys="" th:fragment="music">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/plugins/zplayer/css/zplayer.min.css"/>
+    <script src="/static/plugins/zplayer/js/zplayer.min.js"></script>
+    <script src="/static/plugins/zplayer/json/music.js"></script>
+</head>
+<body>
+<!-- 音乐播放器 -->
+<div id="player1"></div>
+<script>
+    var zp = new zplayer({
+        element: document.getElementById("player1"),
+        autoPlay: 0,/*是否开启自动播放,默认false*/
+        lrcStart: 1,/*是否开启歌词功能 ，默认false（为true时musics集合中需要传入lrc字段。）*/
+        showLrc: 1,/*开启歌词功能后是否展示歌词内容 ，默认false*/
+        fixed: 1, /*是否固定在底部，默认false*/
+        listFolded: 1, /*列表是否折叠，默认false*/
+        listMaxHeight: 300, /*列表最大高度，默认240*/
+        musics: music_json
+    });
+    zp.init();
+</script>
+</body>
+</html>
